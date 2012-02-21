@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
 
   def create
     scm = SourceControl.create(params[:project][:source_control])
-    project = Project.create(params[:project][:name], scm)
+    project = Project.create(params[:project][:name].gsub(" ","_"), scm)
 
     redirect_to getting_started_project_path(project.id)
   end

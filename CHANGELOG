@@ -1,4 +1,5 @@
-* HEAD
+* 1.4.1                      
+  - Replace " " with  "_" when create project with " " in Project name
   - Upgrade to using Ruby on Rails 3.0 and Rack 1.2.
   - Complete UI refresh.
   - Improved compatibility with MRI 1.8.7, 1.9.2 and JRuby. Removed support for Ruby 1.8.6.
