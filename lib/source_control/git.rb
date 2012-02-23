@@ -5,13 +5,28 @@ module SourceControl
     attr_accessor :repository
 
     def initialize(options)
+      require 'json'                   
+      require 'pathname'
+      puts "--------------Option #{options.to_json}" 
       options = options.dup
+      
       @path = options.delete(:path) || "."
       @error_log = options.delete(:error_log)
       @interactive = options.delete(:interactive)
       @repository = options.delete(:repository)
       @branch = options.delete(:branch)
       @watch_for_changes_in = options.delete(:watch_for_changes_in)
+      
+      # puts "Watch : #{@watch_for_changes_in}"
+      #       
+      #       if @watch_for_changes_in
+      #         @origin = @path
+      #         @path = File.join(Rails.root, "tmp", @origin)
+      #         `mkdir -p #{@path}` unless File.exist?(@path)
+      #         puts "Path : #{@path}"
+      #         puts "Origin : #{@origin}"
+      #       end
+      
       raise "don't know how to handle '#{options.keys.first}'" if options.length > 0
     end
 
@@ -20,7 +35,7 @@ module SourceControl
 
       raise "#{checkout_path} is not empty, cannot clone a project into it" unless (Dir.entries(checkout_path) - ['.', '..']).empty?
       FileUtils.rm_rf(checkout_path)
-
+                                                             
       # need to read from command output, because otherwise tests break
       git('clone', [@repository, checkout_path], :execute_in_project_directory => false)
 
@@ -29,6 +44,16 @@ module SourceControl
         git('checkout', ['-q', @branch]) # git prints 'Switched to branch "branch"' to stderr unless you pass -q 
       end
       git("reset", ['--hard', revision.number]) if revision
+      # copy_sub_folder(@watch_for_changes_in) if @watch_for_changes_in
+    end
+    
+    def copy_sub_folder(sub_folder)
+      
+      puts "Copy #{sub_folder} to #{@origin}"
+      
+      # Copy the sub folder to @path
+      sub_folder_star = File.join(@path ,@watch_for_changes_in,"*")
+      `cp -R #{sub_folder_star} #{@origin}`
     end
 
     def clean_checkout(revision = nil, stdout = $stdout)
@@ -51,6 +76,7 @@ module SourceControl
         git("reset", ["--hard"])
       end
       git_update_submodule
+      # copy_sub_folder(@watch_for_changes_in) if @watch_for_changes_in
     end
 
     def up_to_date?(reasons = [])

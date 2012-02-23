@@ -9,7 +9,9 @@ CruiseControl::Application.routes.draw do
       get :getting_started, :constraints => { :id => /.*/ }
     end
   end
-
+                               
+  match 'builds/:project/save_config' => 'builds#save_config', :as => :save_config
+  match 'builds/:project/build_config' => 'builds#build_config'
   match 'builds/:project/latest_successful(/*path)' => 'builds#latest_successful', :as => :latest_successful_build, :project => /[^\/]+/
   match 'builds/:project/:build/artifacts/*path' => 'builds#artifact', :as => :build_artifact, :build => /[^\/]+/, :project => /[^\/]+/
   match 'builds/:project/:build' => 'builds#show', :as => :build, :build => /[^\/]+/, :project => /[^\/]+/

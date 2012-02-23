@@ -1,0 +1,10 @@
+<br>
+<h2>Build settings of <%= @project.name%></h2>
+<div>
+<%= form_for :config, :url => save_config_path,  :action => :post do |p| %> 
+	<div class="textarea_container">
+		<%= p.text_area :content, :value => @config_content, :class => "textarea" %>
+	</div>
+	<%= content_tag("button", "Save settings", :type => "submit") %></dt>
+<% end%>
+</div>

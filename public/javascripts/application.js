@@ -1,7 +1,13 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-$(document).ready(function() {
+$(document).ready(function() { 
+	$("#project_source_control_source_control").live("change", function(e) {
+		value = e.target.value;
+		if (value != "Git") $("#gitOptions").hide();
+		else $("#gitOptions").show();
+	});
+	
   $("#projects .buttons .build_button").live("click", function(e) {
     e.preventDefault();
     var button = $(this);

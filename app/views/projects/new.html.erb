@@ -14,9 +14,19 @@
   
       <dt><%= scm.label :source_control, "Type of source control:" %></dt>
       <dd><%= scm.select :source_control, %w(Git Subversion Mercurial Bazaar) %></dd>
+
+	  <dl id="gitOptions" class="scm">
+		<dt><%= scm.label :branch, "Branch:"%></dt>
+		<dd><%= scm.text_field :branch, :placeholder => "Branch (default is master)"%></dt>
+
+		<dt><%= scm.label :watch_for_changes_in, "Sub folder:"%></dt>
+		<dd><%= scm.text_field :watch_for_changes_in, :placeholder => "Sub-folder to checkout"%></dt>
+	  </dl>
       <% end %>
 
       <%= content_tag("button", "Create", :type => "submit") %></dt>
     </dl>
+	
+	
   <% end %>
 </div>
