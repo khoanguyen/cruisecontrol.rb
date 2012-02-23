@@ -17,6 +17,14 @@ class BuildsController < ApplicationController
     @builds_for_navigation_list, @builds_for_dropdown = partitioned_build_lists(@project)
 
     @autorefresh = @build.incomplete?
+    
+    if File.exist?(File.join(@project.path,"cruise_config.rb")) &&
+      !File.exist?(File.join(@project.path,"work/cruise_config.rb"))
+      @repo_config = false
+    else
+      @repo_config = true
+    end
+    
   end
 
   def artifact
@@ -56,6 +64,22 @@ class BuildsController < ApplicationController
     redirect_to build_path(@project, @build) +
                 (params[:path] ? "/#{params[:path]}" : "")
   end
+  
+  def build_config
+    @project = Project.find(params[:project])
+    @config_content = File.read(File.join(@project.path,"cruise_config.rb"));
+  end
+  
+  def save_config
+    content = params[:config][:content]
+    project = Project.find(params[:project])
+    unless content.empty?
+      File.open(File.join(project.path,"cruise_config.rb"), 'w') { |f| f.write(content)  }
+    end
+    
+    redirect_to project_without_builds_path(@project)
+  end
+  
 
   private
 
