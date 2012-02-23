@@ -1,3 +1,5 @@
+* 1.4.3
+  - Project's build settings is now editable
 * 1.4.1                      
   - Replace " " with  "_" when create project with " " in Project name
   - Upgrade to using Ruby on Rails 3.0 and Rack 1.2.
