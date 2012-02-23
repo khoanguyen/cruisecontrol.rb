@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
   end
 
   def create                       
-    params[:project][:source_control][:branch] = "master" if params[:project][:source_control][:branch].empty?
+    params[:project][:source_control][:branch] = "master" if params[:project][:source_control][:branch].empty
     scm = SourceControl.create(params[:project][:source_control])
     project = Project.create(params[:project][:name].gsub(" ","_"), scm)
 
@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
 
   def getting_started
     @project = Project.find(params[:id])
-    @config_example = File.read( File.join("config", "cruise_config.rb.example") )
+    @config_example = File.read( File.join(Rails.root, "config", "cruise_config.rb.example") )
   end
 
   def show
