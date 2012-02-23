@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
   end
 
   def create                       
-    params[:project][:source_control][:branch] = "master" if params[:project][:source_control][:branch].empty
+    params[:project][:source_control][:branch] = "master" if params[:project][:source_control][:branch].empty?
     scm = SourceControl.create(params[:project][:source_control])
     project = Project.create(params[:project][:name].gsub(" ","_"), scm)
 
