@@ -5,7 +5,7 @@
     <ul class="builds_list">
 	  <% if (!@repo_config) %>
 	  <li class="build_link">
-	  	<a href="<%= "#{@project.name}/build_config"%>">Build settings</a>
+		<%= link_to 'Build settings', build_config_path(@project) %>
 	  </li>
 	  <% end %>
       <li class="build_link builder_control">
